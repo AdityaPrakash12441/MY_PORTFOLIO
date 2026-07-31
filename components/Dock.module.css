@@ -48,3 +48,29 @@
   object-fit: contain;
   pointer-events: none;
 }
+
+@media (max-width: 768px) {
+  .dockItem {
+    width: 40px;
+    height: 40px;
+    margin: 2px;
+  }
+  .dockItem:hover {
+    transform: scale(1.1) translateY(-5px);
+    margin: 0 5px;
+  }
+  .iconImage {
+    width: 30px;
+    height: 30px;
+  }
+  .dock {
+    padding: 6px;
+    gap: 4px;
+    overflow-x: auto;
+    max-width: 95vw;
+  }
+  .dockContainer {
+    margin: 10px;
+    bottom: 5px;
+  }
+}

@@ -35,3 +35,33 @@
   padding-right: 150px; /* Offset to center it nicely visually */
   padding-bottom: 50px; /* Offset for dock */
 }
+
+.welcomeTextSmall {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.welcomeTextLarge {
+  font-size: clamp(3rem, 12vw, 7rem);
+  margin: -20px 0 0 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .desktopArea {
+    flex-direction: column;
+    padding: 10px;
+  }
+  .iconGrid {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .windowArea {
+    padding-right: 0;
+    padding-bottom: 100px;
+  }
+}
