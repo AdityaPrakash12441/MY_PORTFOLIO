@@ -50,16 +50,18 @@ export default function Home() {
         src="/images/wallpaper.png"
         alt="macOS Wallpaper"
         fill
-        className={styles.wallpaper}
+        className={`${styles.wallpaper} hidden md:block`}
         priority
         onClick={() => setIsPortfolioOpen(true)}
       />
-      <MenuBar
-        onOpenPortfolio={() => setIsPortfolioOpen(true)}
-        onOpenContact={() => setIsContactOpen(true)}
-      />
+      <div className="hidden md:block">
+        <MenuBar
+          onOpenPortfolio={() => setIsPortfolioOpen(true)}
+          onOpenContact={() => setIsContactOpen(true)}
+        />
+      </div>
 
-      <div className={styles.desktopArea}>
+      <div className={`${styles.desktopArea} hidden md:flex`}>
         <div className={styles.iconGrid}>
           <DraggableIcon>
             <DesktopIcon label="AnyDrop" onClick={() => { window.open("https://anydrop-chi.vercel.app/", "_blank") }} />
@@ -131,18 +133,25 @@ export default function Home() {
         </div>
       </div>
 
-      <Dock
-        onOpenFinder={() => setIsPortfolioOpen((prev) => !prev)}
-        onOpenTerminal={() => setIsTerminalOpen((prev) => !prev)}
-        onOpenGallery={() => setIsGalleryOpen((prev) => !prev)}
-        onOpenContact={() => setIsContactOpen((prev) => !prev)}
-        onOpenSafari={() => setIsSafariOpen((prev) => !prev)}
-        isFinderOpen={isPortfolioOpen}
-        isTerminalOpen={isTerminalOpen}
-        isGalleryOpen={isGalleryOpen}
-        isContactOpen={isContactOpen}
-        isSafariOpen={isSafariOpen}
-      />
+      <div className="hidden md:block">
+        <Dock
+          onOpenFinder={() => setIsPortfolioOpen((prev) => !prev)}
+          onOpenTerminal={() => setIsTerminalOpen((prev) => !prev)}
+          onOpenGallery={() => setIsGalleryOpen((prev) => !prev)}
+          onOpenContact={() => setIsContactOpen((prev) => !prev)}
+          onOpenSafari={() => setIsSafariOpen((prev) => !prev)}
+          isFinderOpen={isPortfolioOpen}
+          isTerminalOpen={isTerminalOpen}
+          isGalleryOpen={isGalleryOpen}
+          isContactOpen={isContactOpen}
+          isSafariOpen={isSafariOpen}
+        />
+      </div>
+
+      {/* Mobile only standalone portfolio view */}
+      <div className="md:hidden w-full h-[100dvh] absolute inset-0 z-[10000] bg-[#0a0a0f]">
+        <Portfolio />
+      </div>
     </main>
   );
 }

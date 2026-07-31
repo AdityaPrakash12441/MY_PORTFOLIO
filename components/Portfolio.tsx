@@ -35,6 +35,15 @@ const PROJECTS: Project[] = [
     },
     {
         id: 2,
+        icon: "/images/urlshortner.png",
+        name: "URL Shortener",
+        description: "URL Shortener is a tool that shortens URLs and provides analytics about the clicks on the shortened URLs.",
+        techs: ["Nodejs", "Redis", "Docker", "React", "Express"],
+        github: "https://github.com/saurabhkushwaha438/urlshortner",
+        live: "https://urlshortnerfrontend-steel.vercel.app/",
+    },
+    {
+        id: 3,
         icon: "/images/prepmate.png",
         name: "PrepMate",
         description: "PrepMate Crack Your Placement Interviews Practice OS, DBMS, CN, and HR questions with an AI mentor designed to simulate the intensity of real-world technical evaluations",
@@ -43,7 +52,7 @@ const PROJECTS: Project[] = [
         live: "https://prepmate-theta.vercel.app/",
     },
     {
-        id: 3,
+        id: 4,
         icon: "/images/frogsafari.png",
         name: "FrogsSafari",
         description:
@@ -53,7 +62,7 @@ const PROJECTS: Project[] = [
         live: "https://saurabhkushwaha438.github.io/Frog-Soar-Sky-Safari/",
     },
     {
-        id: 4,
+        id: 5,
         icon: "/images/dashboardi.png",
         name: "CoinInsight",
         description:
@@ -63,7 +72,7 @@ const PROJECTS: Project[] = [
         live: "https://coininsight.vercel.app/",
     },
     {
-        id: 5,
+        id: 6,
         icon: "🌐",
         name: "Production Grade CMS Backend",
         description:
@@ -73,7 +82,7 @@ const PROJECTS: Project[] = [
         live: "https://github.com/saurabhkushwaha438/project_3_backend-content-management-system-",
     },
     {
-        id: 6,
+        id: 7,
         icon: "🌐",
         name: "ChatRoomServer",
         description:
@@ -282,17 +291,17 @@ export default function Portfolio({ onClose }: { onClose?: () => void }) {
     return (
         <div
             className="
-                w-[800px]
-                h-[83vh]
-                my-6
+                w-full md:w-[800px]
+                h-full md:h-[83vh]
+                md:my-6
                 overflow-hidden
-                rounded-[20px]
+                md:rounded-[20px]
                 text-white
                 antialiased
-                shadow-[0_30px_90px_rgba(0,0,0,.55)]
-                border border-white/10
+                md:shadow-[0_30px_90px_rgba(0,0,0,.55)]
+                md:border md:border-white/10
                 backdrop-blur-[30px]
-                bg-white/[0.07]
+                bg-[#0a0a0f] md:bg-white/[0.07]
             "
             style={{
                 fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
@@ -302,11 +311,13 @@ export default function Portfolio({ onClose }: { onClose?: () => void }) {
                     "inset 0 1px 0 rgba(255,255,255,.18), 0 8px 30px rgba(0,0,0,.2), 0 30px 90px rgba(0,0,0,.55)",
             }}
         >
-            <TitleBar onClose={onClose} />
+            <div className="hidden md:block">
+                <TitleBar onClose={onClose} />
+            </div>
 
             {/* Scrollable content */}
             <div
-                className="px-8 py-7 overflow-y-auto max-h-[650px] scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent hover:scrollbar-thumb-white/30"
+                className="px-6 md:px-8 py-7 overflow-y-auto h-full md:max-h-[650px] pb-20 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent hover:scrollbar-thumb-white/30"
             >
                 {/* ── Hero (macOS Profile Style) ── */}
                 <section id="hero" className="flex items-center gap-5 mb-6">
