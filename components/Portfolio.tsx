@@ -126,13 +126,9 @@ function TitleBar({ onClose }: { onClose?: () => void }) {
             px-4
             relative
             border-b
-            border-white/10
-            backdrop-blur-[24px]
-            bg-white/[0.06]
+            border-white/[0.07]
+            bg-[#2a2a2c]
             "
-            style={{
-                boxShadow: "inset 0 1px 0 rgba(255,255,255,.18), 0 8px 30px rgba(0,0,0,.2)"
-            }}
             onMouseEnter={() => setDotsHovered(true)}
             onMouseLeave={() => setDotsHovered(false)}
         >
@@ -270,7 +266,7 @@ function ExpCard({ exp }: { exp: Experience }) {
 
 // ─── Root component ───────────────────────────────────────────────────────────
 
-export default function Portfolio({ onClose }: { onClose?: () => void }) {
+export default function Portfolio({ onClose, onOpenChat }: { onClose?: () => void, onOpenChat?: () => void }) {
     const [time, setTime] = useState("");
 
     useEffect(() => {
@@ -291,24 +287,21 @@ export default function Portfolio({ onClose }: { onClose?: () => void }) {
     return (
         <div
             className="
+                relative
+                flex flex-col
                 w-full md:w-[800px]
                 h-full md:h-[83vh]
                 md:my-6
                 overflow-hidden
-                md:rounded-[20px]
+                md:rounded-xl
                 text-white
                 antialiased
-                md:shadow-[0_30px_90px_rgba(0,0,0,.55)]
+                shadow-2xl
                 md:border md:border-white/10
-                backdrop-blur-[30px]
-                bg-[#0a0a0f] md:bg-white/[0.07]
+                bg-[#1c1c1e]
             "
             style={{
                 fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
-                background:
-                    "linear-gradient(180deg,#0a0a0f 0%,#12101a 100%)",
-                boxShadow:
-                    "inset 0 1px 0 rgba(255,255,255,.18), 0 8px 30px rgba(0,0,0,.2), 0 30px 90px rgba(0,0,0,.55)",
             }}
         >
             <div className="hidden md:block">
@@ -317,7 +310,7 @@ export default function Portfolio({ onClose }: { onClose?: () => void }) {
 
             {/* Scrollable content */}
             <div
-                className="px-6 md:px-8 py-7 overflow-y-auto h-full md:max-h-[650px] pb-20 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent hover:scrollbar-thumb-white/30"
+                className="flex-1 bg-[#1a1a1c] px-6 md:px-8 py-7 overflow-y-auto pb-24 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent hover:scrollbar-thumb-white/30"
             >
                 {/* ── Hero (macOS Profile Style) ── */}
                 <section id="hero" className="flex items-center gap-5 mb-6">
@@ -385,6 +378,33 @@ export default function Portfolio({ onClose }: { onClose?: () => void }) {
                     <SectionHead>Projects</SectionHead>
                     <ProjectList projects={PROJECTS} />
                 </section>
+            </div>
+
+            {/* Ask Me Floating Button */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center">
+                <button
+                    onClick={onOpenChat}
+                    className="
+                        flex items-center gap-2 
+                        px-4 py-2 
+                        rounded-full 
+                        bg-white/[0.1] hover:bg-white/[0.15] 
+                        border border-white/10 
+                        backdrop-blur-md 
+                        transition-all 
+                        active:scale-95
+                    "
+                    style={{
+                        boxShadow: "inset 0 1px 0 rgba(255,255,255,.15), 0 8px 24px rgba(0,0,0,.4)"
+                    }}
+                >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#FEBC2E" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" className="opacity-90">
+                        <path fillRule="evenodd" clipRule="evenodd" d="M10.7034 6.73972C10.5945 6.4454 10.3138 6.25 10 6.25C9.68617 6.25 9.40552 6.4454 9.29661 6.73972L8.78076 8.13378C8.08054 10.0261 7.79598 10.7489 7.27245 11.2725C6.74893 11.796 6.02612 12.0805 4.13378 12.7808L2.73972 13.2966C2.4454 13.4055 2.25 13.6862 2.25 14C2.25 14.3138 2.4454 14.5945 2.73972 14.7034L4.13378 15.2192C6.02612 15.9195 6.74893 16.204 7.27245 16.7275C7.79598 17.2511 8.08054 17.9739 8.78077 19.8662L9.29661 21.2603C9.40552 21.5546 9.68617 21.75 10 21.75C10.3138 21.75 10.5945 21.5546 10.7034 21.2603L11.2192 19.8662C11.9195 17.9739 12.204 17.2511 12.7275 16.7275C13.2511 16.204 13.9739 15.9195 15.8662 15.2192L17.2603 14.7034C17.5546 14.5945 17.75 14.3138 17.75 14C17.75 13.6862 17.5546 13.4055 17.2603 13.2966L15.8662 12.7808C13.9739 12.0805 13.2511 11.796 12.7275 11.2725C12.204 10.7489 11.9195 10.0261 11.2192 8.13378L10.7034 6.73972ZM18.7034 2.73972C18.5945 2.4454 18.3138 2.25 18 2.25C17.6862 2.25 17.4055 2.4454 17.2966 2.73972L17.0755 3.33717C16.7618 4.18495 16.6705 4.38548 16.528 4.528C16.3855 4.67053 16.1849 4.76183 15.3372 5.07553L14.7397 5.29661C14.4454 5.40552 14.25 5.68617 14.25 6C14.25 6.31383 14.4454 6.59448 14.7397 6.70339L15.3372 6.92447C16.185 7.23817 16.3855 7.32947 16.528 7.472C16.6705 7.61452 16.7618 7.81505 17.0755 8.66282L17.2966 9.26028C17.4055 9.5546 17.6862 9.75 18 9.75C18.3138 9.75 18.5945 9.5546 18.7034 9.26028L18.9245 8.66283C19.2382 7.81505 19.3295 7.61452 19.472 7.47199C19.6145 7.32947 19.8151 7.23817 20.6628 6.92447L21.2603 6.70339C21.5546 6.59448 21.75 6.31383 21.75 6C21.75 5.68617 21.5546 5.40552 21.2603 5.29661L20.6628 5.07553C19.8151 4.76183 19.6145 4.67053 19.472 4.528C19.3295 4.38548 19.2382 4.18495 18.9245 3.33717L18.7034 2.73972Z"></path>
+                    </svg>
+                    <span className="text-[13px] font-medium text-white/90 tracking-wide" style={{ textShadow: "0 1px 2px rgba(0,0,0,0.5)" }}>
+                        Ask Me
+                    </span>
+                </button>
             </div>
         </div>
     );

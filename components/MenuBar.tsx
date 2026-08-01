@@ -1,5 +1,8 @@
+"use client";
+
 import styles from './MenuBar.module.css';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 
 interface MenuBarProps {
   onOpenPortfolio?: () => void;
@@ -7,13 +10,30 @@ interface MenuBarProps {
 }
 
 export default function MenuBar({ onOpenPortfolio, onOpenContact }: MenuBarProps) {
-  const timeString = new Date().toLocaleTimeString('en-US', {
-    weekday: 'short',
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-  });
+  const [timeString, setTimeString] = useState<string>('');
+
+  useEffect(() => {
+    setTimeString(new Date().toLocaleTimeString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+    }));
+    
+    // Optional: update time every minute
+    const interval = setInterval(() => {
+      setTimeString(new Date().toLocaleTimeString('en-US', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+      }));
+    }, 60000);
+    
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className={styles.menuBar}>

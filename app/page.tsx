@@ -11,6 +11,7 @@ import BubbleText from "@/components/BubbleText";
 import ContactCard from "@/components/Contactcard";
 import Gallery from '@/components/Gallery';
 import SafariWindow from '@/components/SafariWindow';
+import ChatWindow from '@/components/ChatWindow';
 import { Lacquer, Aubrey } from "next/font/google";
 import Portfolio from "@/components/Portfolio";
 import { useRouter } from "next/navigation";
@@ -33,6 +34,7 @@ export default function Home() {
   const [isContactOpen, setIsContactOpen] = useState(false);
   const [isSafariOpen, setIsSafariOpen] = useState(false);
   const [isPortfolioOpen, setIsPortfolioOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   return (
     <main className={styles.main}>
@@ -88,8 +90,8 @@ export default function Home() {
             display: 'flex',
             flexDirection: 'column',
             gap: 0,
-            opacity: (isTerminalOpen || isGalleryOpen || isContactOpen || isSafariOpen || isPortfolioOpen) ? 0.25 : 1,
-            transform: (isTerminalOpen || isGalleryOpen || isContactOpen || isSafariOpen || isPortfolioOpen) ? 'scale(0.95)' : 'scale(1)',
+            opacity: (isTerminalOpen || isGalleryOpen || isContactOpen || isSafariOpen || isPortfolioOpen || isChatOpen) ? 0.25 : 1,
+            transform: (isTerminalOpen || isGalleryOpen || isContactOpen || isSafariOpen || isPortfolioOpen || isChatOpen) ? 'scale(0.95)' : 'scale(1)',
             transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)'
           }}>
             <BubbleText className={`${aubrey.className} ${styles.welcomeTextSmall}`}>Hey, I'm Saurabh! welcome to my</BubbleText>
@@ -127,7 +129,14 @@ export default function Home() {
           {/* Floating Portfolio Window */}
           {isPortfolioOpen && (
             <DraggableWindow zIndex={60}>
-              <Portfolio onClose={() => setIsPortfolioOpen(false)} />
+              <Portfolio onClose={() => setIsPortfolioOpen(false)} onOpenChat={() => setIsChatOpen(true)} />
+            </DraggableWindow>
+          )}
+
+          {/* Floating Chat Window */}
+          {isChatOpen && (
+            <DraggableWindow zIndex={65}>
+              <ChatWindow onClose={() => setIsChatOpen(false)} />
             </DraggableWindow>
           )}
         </div>
@@ -140,17 +149,24 @@ export default function Home() {
           onOpenGallery={() => setIsGalleryOpen((prev) => !prev)}
           onOpenContact={() => setIsContactOpen((prev) => !prev)}
           onOpenSafari={() => setIsSafariOpen((prev) => !prev)}
+          onOpenChat={() => setIsChatOpen((prev) => !prev)}
           isFinderOpen={isPortfolioOpen}
           isTerminalOpen={isTerminalOpen}
           isGalleryOpen={isGalleryOpen}
           isContactOpen={isContactOpen}
           isSafariOpen={isSafariOpen}
+          isChatOpen={isChatOpen}
         />
       </div>
 
       {/* Mobile only standalone portfolio view */}
       <div className="md:hidden w-full h-[100dvh] absolute inset-0 z-[10000] bg-[#0a0a0f]">
-        <Portfolio />
+        <Portfolio onOpenChat={() => setIsChatOpen(true)} />
+        {isChatOpen && (
+          <div className="absolute inset-0 z-[10001] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+            <ChatWindow onClose={() => setIsChatOpen(false)} />
+          </div>
+        )}
       </div>
     </main>
   );

@@ -14,11 +14,12 @@ interface DockProps {
   isGalleryOpen?: boolean;
   isContactOpen?: boolean;
   isSafariOpen?: boolean;
+  isChatOpen?: boolean;
 }
 
 export default function Dock({
-  onOpenFinder, onOpenTerminal, onOpenGallery, onOpenContact, onOpenSafari,
-  isFinderOpen, isTerminalOpen, isGalleryOpen, isContactOpen, isSafariOpen
+  onOpenFinder, onOpenTerminal, onOpenGallery, onOpenContact, onOpenSafari, onOpenChat,
+  isFinderOpen, isTerminalOpen, isGalleryOpen, isContactOpen, isSafariOpen, isChatOpen
 }: DockProps) {
   const icons = [
     { name: 'Finder', icon: '/images/finder.png', isOpen: isFinderOpen },
@@ -26,7 +27,7 @@ export default function Dock({
     { name: 'Photos', icon: '/images/photos.png', isOpen: isGalleryOpen },
     { name: 'Contacts', icon: '/images/contact.png', isOpen: isContactOpen },
     { name: 'Terminal', icon: '/images/terminal.png', isOpen: isTerminalOpen },
-    { name: 'Trash', icon: '/images/trash.png', isOpen: false }
+    { name: 'Ask Me', icon: '/icons/svgexport.svg', isOpen: isChatOpen }
   ];
 
   return (
@@ -37,15 +38,22 @@ export default function Dock({
             <div
               className={styles.dockItem}
               title={item.name}
+              style={item.name === 'Ask Me' ? { width: 'auto', padding: '0 12px', gap: '8px' } : {}}
               onClick={() => {
                 if (item.name === 'Finder' && onOpenFinder) onOpenFinder();
                 if (item.name === 'Terminal' && onOpenTerminal) onOpenTerminal();
                 if (item.name === 'Photos' && onOpenGallery) onOpenGallery();
                 if (item.name === 'Contacts' && onOpenContact) onOpenContact();
                 if (item.name === 'Safari' && onOpenSafari) onOpenSafari();
+                if (item.name === 'Ask Me' && onOpenChat) onOpenChat();
               }}
             >
-              <Image src={item.icon} alt={item.name} width={40} height={40} className={styles.iconImage} />
+              <Image src={item.icon} alt={item.name} width={item.name === 'Ask AI' ? 24 : 40} height={item.name === 'Ask AI' ? 24 : 40} className={styles.iconImage} style={item.name === 'Ask AI' ? { width: '24px', height: '24px' } : {}} />
+              {item.name === 'Ask Me' && (
+                <span style={{ color: '#1a1a1a', fontWeight: 600, fontSize: '13px', whiteSpace: 'nowrap', paddingRight: '4px' }}>
+                  Ask Me
+                </span>
+              )}
             </div>
             {/* Active indicator dot */}
             {item.isOpen && (
