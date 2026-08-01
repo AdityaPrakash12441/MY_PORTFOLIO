@@ -19,6 +19,7 @@ export async function POST(req: Request) {
     - Answer politely and concisely.
     - Keep answers short (1-3 sentences).
     - Answer professional.
+    - Dont answer other questions like  he said/ she said, who is better, maths only about  saurabh, his projects, skills, experience, etc.
 
     # Projects:
           - Anydrop(Cross-Device Clipboard & Snippet Sharing Platform)

@@ -411,12 +411,12 @@ export default function Portfolio({ onClose, onOpenChat }: { onClose?: () => voi
             </div>
 
             {/* Ask Me Floating Button */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center">
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center">
                 <button
                     onClick={onOpenChat}
                     className="
                         flex items-center gap-2 
-                        px-4 py-2 
+                        px-6 py-3
                         rounded-full 
                         bg-white/[0.1] hover:bg-white/[0.15] 
                         border border-white/10 
