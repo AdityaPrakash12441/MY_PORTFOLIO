@@ -101,14 +101,30 @@ export async function POST(req: Request) {
     const chatCompletion = await client.chat.completions.create({
       messages: messages,
       model: 'llama-3.3-70b-versatile',
+      stream: true,
     });
 
-    return NextResponse.json({
-      reply: chatCompletion.choices[0]?.message?.content || "Sorry, I couldn't process that right now."
+    const stream = new ReadableStream({
+      async start(controller) {
+        for await (const chunk of chatCompletion) {
+          const content = chunk.choices[0]?.delta?.content || "";
+          if (content) {
+            controller.enqueue(new TextEncoder().encode(content));
+          }
+        }
+        controller.close();
+      },
+    });
+
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/plain; charset=utf-8',
+        'Cache-Control': 'no-cache',
+      },
     });
 
   } catch (error) {
     console.error("Chat API Error:", error);
-    return NextResponse.json({ error: 'Failed to process request' }, { status: 500 });
+    return new Response('Failed to process request', { status: 500 });
   }
 }

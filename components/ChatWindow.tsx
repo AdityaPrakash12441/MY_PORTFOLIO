@@ -30,13 +30,28 @@ export default function ChatWindow({ onClose }: { onClose?: () => void }) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message: msg, history: messages.map(m => ({ role: m.role, content: m.content })) }),
             });
-            const data = await res.json();
-            if (data.reply) {
-                setMessages([...newMessages, { role: "assistant", content: data.reply }]);
+
+            if (!res.body) throw new Error("No response body");
+
+            const reader = res.body.getReader();
+            const decoder = new TextDecoder();
+            let assistantMessage = "";
+
+            setIsLoading(false);
+            setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
+
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                assistantMessage += decoder.decode(value, { stream: true });
+                setMessages((prev) => {
+                    const newMsgs = [...prev];
+                    newMsgs[newMsgs.length - 1].content = assistantMessage;
+                    return newMsgs;
+                });
             }
         } catch (e) {
             console.error(e);
-        } finally {
             setIsLoading(false);
         }
     };
@@ -88,7 +103,7 @@ export default function ChatWindow({ onClose }: { onClose?: () => void }) {
                     </div>
                 ) : (
                     messages.map((m, idx) => (
-                        <div key={idx} className={`max-w-[85%] rounded-2xl px-4 py-2 text-[13px] leading-relaxed ${m.role === 'user' ? 'bg-[#0A84FF] text-white self-end rounded-br-sm' : 'bg-white/10 text-white/90 self-start rounded-bl-sm border border-white/5'}`}>
+                        <div key={idx} className={`max-w-[85%] break-words whitespace-pre-wrap rounded-2xl px-4 py-2 text-[13px] leading-relaxed ${m.role === 'user' ? 'bg-[#0A84FF] text-white self-end rounded-br-sm' : 'bg-white/10 text-white/90 self-start rounded-bl-sm border border-white/5'}`}>
                             {m.content}
                         </div>
                     ))
