@@ -359,11 +359,41 @@ export default function Portfolio({ onClose, onOpenChat }: { onClose?: () => voi
                 </div>
 
                 {/* Bio */}
-                <p className="text-[13px] text-white/60 leading-relaxed mb-6" style={{ fontWeight: 450 }}>
+                <p className="text-[13px] text-white/60 leading-relaxed mb-5" style={{ fontWeight: 450 }}>
                     Building cool stuff and contributing to open source security tooling.
-                    Member of OWASP SasanLabs — working on frontend and
-                    developer tools that solve real problems.
+                    Member of OWASP SasanLabs. Currently doing fullstack development and learning AI engineering.
                 </p>
+
+                {/* Social Links */}
+                <div className="flex flex-wrap gap-2.5 mb-8">
+                    <a
+                        href="https://github.com/saurabhkushwaha438"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[12px] font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.05] border border-white/[0.05] text-white/80 hover:bg-white/[0.1] hover:text-white transition-all shadow-sm"
+                    >
+                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                        GitHub
+                    </a>
+                    <a
+                        href="https://www.linkedin.com/in/saurabhkushwaha438/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[12px] font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.05] border border-white/[0.05] text-white/80 hover:bg-[#0A66C2]/15 hover:border-[#0A66C2]/30 hover:text-[#0A84FF] transition-all shadow-sm"
+                    >
+                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                        LinkedIn
+                    </a>
+                    <a
+                        href="https://x.com/_100rbh_"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[12px] font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.05] border border-white/[0.05] text-white/80 hover:bg-[#1DA1F2]/15 hover:border-[#1DA1F2]/30 hover:text-[#1DA1F2] transition-all shadow-sm"
+                    >
+                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
+                        Twitter
+                    </a>
+                </div>
 
                 {/* ── Experience ── */}
                 <section id="experience" className="mb-8">

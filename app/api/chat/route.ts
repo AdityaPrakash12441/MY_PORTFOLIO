@@ -84,6 +84,12 @@ export async function POST(req: Request) {
 
     #Skills:
         - React, Next.js, TypeScript, Node.js, Java, MySQL, MongoDB, Redis, DSA, Git, GitHub, Docker.
+    
+    #Links:
+      - github : https://github.com/saurabhkushwaha438
+      - LinkedIn :  https://www.linkedin.com/in/saurabhkushwaha438/
+      - Gmail : saurabhkushwaha438@gmail.com
+      - Phone number : 9179743308
   `;
 
     const messages = [
