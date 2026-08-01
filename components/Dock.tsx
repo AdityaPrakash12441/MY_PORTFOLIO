@@ -9,6 +9,7 @@ interface DockProps {
   onOpenGallery?: () => void;
   onOpenContact?: () => void;
   onOpenSafari?: () => void;
+  onOpenChat?: () => void;
   isFinderOpen?: boolean;
   isTerminalOpen?: boolean;
   isGalleryOpen?: boolean;
