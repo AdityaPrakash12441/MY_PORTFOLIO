@@ -4,6 +4,10 @@ export async function POST(req: Request) {
   try {
     const { message, history } = await req.json();
 
+    if (!process.env.GEMINI_API_KEY) {
+      return new Response("GEMINI_API_KEY is not configured in environment variables", { status: 500 });
+    }
+
     const systemPrompt = `
     #ROLE
     You are an AI assistant representing Aditya Prakash, a software engineering student building AI-native and security-focused systems.

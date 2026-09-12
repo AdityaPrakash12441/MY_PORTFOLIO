@@ -4,7 +4,7 @@ export async function POST(req: Request) {
   try {
     const { query } = await req.json();
 
-    if (!query || typeof query !== "string") {
+    if (!query || typeof query !== "string" || !process.env.GEMINI_API_KEY) {
       return Response.json({ results: getDefaultResults() });
     }
 
