@@ -13,7 +13,7 @@ const socialLinks = [
         ),
         bg: "bg-[#E05C5C]",
         hoverBg: "hover:bg-[#C94F4F]",
-        href: "https://github.com/saurabhkushwaha438",
+        href: "https://github.com/AdityaPrakash12441",
     },
     {
         label: "Leetcode",
@@ -25,18 +25,7 @@ const socialLinks = [
         ),
         bg: "bg-[#3DBE6E]",
         hoverBg: "hover:bg-[#2EA85E]",
-        href: "https://leetcode.com/u/saurabhkushwaha917/",
-    },
-    {
-        label: "Twitter/X",
-        icon: (
-            <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-            </svg>
-        ),
-        bg: "bg-[#F07B5A]",
-        hoverBg: "hover:bg-[#D96B4A]",
-        href: "https://x.com/_100rbh_",
+        href: "https://leetcode.com/u/Aditya_prakash_1/",
     },
     {
         label: "LinkedIn",
@@ -47,9 +36,22 @@ const socialLinks = [
         ),
         bg: "bg-[#29B6E8]",
         hoverBg: "hover:bg-[#1FA4D4]",
-        href: "https://www.linkedin.com/in/saurabhkushwaha438/",
+        href: "https://www.linkedin.com/in/aditya-prakash-124029330",
+    },
+    {
+        label: "Email",
+        icon: (
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="w-6 h-6">
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="M2 7l10 7 10-7" />
+            </svg>
+        ),
+        bg: "bg-[#F07B5A]",
+        hoverBg: "hover:bg-[#D96B4A]",
+        href: "mailto:ap2230749@gmail.com",
     },
 ];
+
 
 interface ContactCardProps {
     onClose?: () => void;
@@ -99,6 +101,7 @@ export default function ContactCard({ onClose }: ContactCardProps) {
                             src="/images/dp.jpeg"
                             alt="Profile"
                             className="w-full h-full object-cover"
+                            style={{ objectPosition: 'center 20%' }}
                         />
                     </div>
                 </div>

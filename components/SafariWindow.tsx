@@ -8,6 +8,34 @@ interface SafariWindowProps {
 
 type TabType = 'start' | 'google' | 'google-results' | 'github' | 'linkedin' | 'external';
 
+interface SearchResult {
+  title: string;
+  displayUrl: string;
+  url: string;
+  snippet: string;
+}
+
+const DEFAULT_RESULTS: SearchResult[] = [
+  {
+    title: "Aditya Prakash | AI & Security Systems · Student Portfolio",
+    displayUrl: "aditya.dev",
+    url: "https://aditya.dev",
+    snippet: "Interactive macOS-themed portfolio. Explore my tech stack via terminal, browse projects (DPI Engine, RECALL DSA), or get in touch. Built with Next.js."
+  },
+  {
+    title: "AdityaPrakash12441 (Aditya Prakash) · GitHub",
+    displayUrl: "github.com › AdityaPrakash12441",
+    url: "https://github.com/AdityaPrakash12441",
+    snippet: "Aditya Prakash — Software Engineering Student. Repositories include DPI Engine (C++17 networking) and RECALL DSA (RAG pipeline with LangChain & Qdrant)."
+  },
+  {
+    title: "Aditya Prakash - Software Engineering Student - LinkedIn",
+    displayUrl: "linkedin.com › in › aditya-prakash-124029330",
+    url: "https://linkedin.com/in/aditya-prakash-124029330",
+    snippet: "B.Tech CSE student at Manipal University Jaipur. Experienced in C++, Python, LLM-based apps, vector search, and networking systems."
+  }
+];
+
 export default function SafariWindow({ onClose }: SafariWindowProps) {
   const [currentTab, setCurrentTab] = useState<TabType>('start');
   const [urlInput, setUrlInput] = useState('Safari Start Page');
@@ -16,11 +44,43 @@ export default function SafariWindow({ onClose }: SafariWindowProps) {
   const [isMinimized, setIsMinimized] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
   const [dotsHovered, setDotsHovered] = useState(false);
+  const [searchResults, setSearchResults] = useState<SearchResult[]>(DEFAULT_RESULTS);
+  const [isSearching, setIsSearching] = useState(false);
+  const [resultCount, setResultCount] = useState("124,000");
+  const [searchTime, setSearchTime] = useState("0.28");
 
   const navigateTo = (tab: TabType, newUrl: string, iframe: string = '') => {
     setCurrentTab(tab);
     setUrlInput(newUrl);
     if (iframe) setIframeUrl(iframe);
+  };
+
+  const executeSearch = async (query: string) => {
+    const trimmed = query.trim();
+    if (!trimmed) return;
+    setSearchQuery(trimmed);
+    navigateTo('google-results', `https://www.google.com/search?q=${encodeURIComponent(trimmed)}`);
+    setIsSearching(true);
+    try {
+      const res = await fetch('/api/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: trimmed })
+      });
+      const data = await res.json();
+      if (data.results && Array.isArray(data.results) && data.results.length > 0) {
+        setSearchResults(data.results);
+        setResultCount((Math.floor(Math.random() * 400 + 50) * 1000).toLocaleString());
+        setSearchTime((Math.random() * 0.25 + 0.15).toFixed(2));
+      } else {
+        setSearchResults(DEFAULT_RESULTS);
+      }
+    } catch (err) {
+      console.error("Search error:", err);
+      setSearchResults(DEFAULT_RESULTS);
+    } finally {
+      setIsSearching(false);
+    }
   };
 
   const handleUrlSubmit = (e: React.FormEvent) => {
@@ -30,26 +90,29 @@ export default function SafariWindow({ onClose }: SafariWindowProps) {
 
     if (query.toLowerCase() === 'safari' || query.toLowerCase() === 'start') {
       navigateTo('start', 'Safari Start Page');
-    } else if (query.toLowerCase().includes('google')) {
+    } else if (query.toLowerCase().includes('google.com') && !query.includes('search')) {
       navigateTo('google', 'https://www.google.com');
-    } else if (query.toLowerCase().includes('github.com/saurabh') || query.toLowerCase() === 'github') {
-      navigateTo('github', 'https://github.com/saurabhkushwaha438');
+    } else if (query.toLowerCase().includes('github.com/aditya') || query.toLowerCase() === 'github') {
+      navigateTo('github', 'https://github.com/AdityaPrakash12441');
     } else if (query.toLowerCase().includes('linkedin.com') || query.toLowerCase() === 'linkedin') {
-      navigateTo('linkedin', 'https://linkedin.com/in/saurabhkushwaha');
-    } else {
-      // Treat as external url
+      navigateTo('linkedin', 'https://linkedin.com/in/aditya-prakash-124029330');
+    } else if (/^https?:\/\//i.test(query) || (query.includes('.') && !query.includes(' '))) {
+      // Treat as URL
       let formattedUrl = query;
       if (!/^https?:\/\//i.test(formattedUrl)) {
         formattedUrl = 'https://' + formattedUrl;
       }
       navigateTo('external', formattedUrl, formattedUrl);
+    } else {
+      // Treat as a search query
+      executeSearch(query);
     }
   };
 
   const handleGoogleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchQuery.trim()) return;
-    navigateTo('google-results', `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`);
+    executeSearch(searchQuery);
   };
 
   if (isMinimized) {
@@ -166,7 +229,7 @@ export default function SafariWindow({ onClose }: SafariWindowProps) {
 
               {/* GitHub Link */}
               <div
-                onClick={() => window.open('https://github.com/saurabhkushwaha438', '_blank')}
+                onClick={() => window.open('https://github.com/AdityaPrakash12441', '_blank')}
                 className="flex flex-col items-center gap-2 cursor-pointer group"
               >
                 <div className="w-14 h-14 rounded-2xl bg-neutral-900 flex items-center justify-center shadow-lg border border-white/10 transition-transform group-hover:scale-105">
@@ -179,7 +242,7 @@ export default function SafariWindow({ onClose }: SafariWindowProps) {
 
               {/* LinkedIn Link */}
               <div
-                onClick={() => window.open('https://linkedin.com/in/saurabhkushwaha', '_blank')}
+                onClick={() => window.open('https://linkedin.com/in/aditya-prakash-124029330', '_blank')}
                 className="flex flex-col items-center gap-2 cursor-pointer group"
               >
                 <div className="w-14 h-14 rounded-2xl bg-[#0077b5] flex items-center justify-center shadow-lg transition-transform group-hover:scale-105">
@@ -190,16 +253,17 @@ export default function SafariWindow({ onClose }: SafariWindowProps) {
                 <span className="text-xs text-white/60 group-hover:text-white transition-colors">LinkedIn</span>
               </div>
 
-              {/* Nike Store Link */}
+              {/* LeetCode Link */}
               <div
-                onClick={() => navigateTo('external', 'Nike Store', 'https://example.com')}
+                onClick={() => window.open('https://leetcode.com/u/Aditya_prakash_1/', '_blank')}
                 className="flex flex-col items-center gap-2 cursor-pointer group"
               >
-                <div className="w-14 h-14 rounded-2xl bg-orange-600 flex items-center justify-center shadow-lg transition-transform group-hover:scale-105">
-                  <span className="text-white text-xs font-bold font-sans">NIKE</span>
+                <div className="w-14 h-14 rounded-2xl bg-[#FFA116] flex items-center justify-center shadow-lg transition-transform group-hover:scale-105">
+                  <span className="text-white text-xs font-bold font-sans">LC</span>
                 </div>
-                <span className="text-xs text-white/60 group-hover:text-white transition-colors">Nike Store</span>
+                <span className="text-xs text-white/60 group-hover:text-white transition-colors">LeetCode</span>
               </div>
+
             </div>
 
             <div className="mt-16 text-center max-w-sm">
@@ -242,7 +306,7 @@ export default function SafariWindow({ onClose }: SafariWindowProps) {
                 </button>
                 <button
                   type="button"
-                  onClick={() => { setSearchQuery('Saurabh Kushwaha portfolio'); navigateTo('google-results', 'https://www.google.com/search?q=Saurabh+Kushwaha+portfolio'); }}
+                  onClick={() => executeSearch('Aditya Prakash portfolio')}
                   className="px-4 py-2 bg-[#303134] hover:bg-[#3c4043] rounded text-xs font-medium text-white/90 border border-transparent active:border-white/20 transition-all"
                 >
                   I'm Feeling Lucky
@@ -252,60 +316,74 @@ export default function SafariWindow({ onClose }: SafariWindowProps) {
           </div>
         )}
 
-        {/* ==================== 3. MOCK GOOGLE SEARCH RESULTS ==================== */}
+        {/* ==================== 3. DYNAMIC GOOGLE SEARCH RESULTS ==================== */}
         {currentTab === 'google-results' && (
-          <div className="flex-1 bg-[#202124] text-white p-6 flex flex-col font-sans select-text">
-            {/* Header info */}
-            <div className="flex items-center gap-4 pb-4 border-b border-[#303134] mb-4">
-              <span className="text-xl font-bold text-blue-500 cursor-pointer" onClick={() => navigateTo('google', 'https://www.google.com')}>Google</span>
-              <div className="bg-[#303134] rounded-full px-4 py-1.5 text-xs text-white/80 w-80">
-                {searchQuery || 'Saurabh Kushwaha portfolio'}
+          <div className="flex-1 bg-[#202124] text-white p-6 flex flex-col font-sans select-text overflow-y-auto">
+            {/* Header info with interactive search bar */}
+            <div className="flex items-center gap-4 pb-4 border-b border-[#303134] mb-4 flex-shrink-0">
+              <span className="text-xl font-bold text-blue-500 cursor-pointer flex-shrink-0" onClick={() => navigateTo('google', 'https://www.google.com')}>Google</span>
+              <form onSubmit={(e) => { e.preventDefault(); executeSearch(searchQuery); }} className="flex-1 max-w-xl">
+                <div className="flex items-center bg-[#303134] hover:bg-[#3c4043] rounded-full px-4 py-1.5 text-xs text-white/90 transition-colors">
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="bg-transparent border-none outline-none w-full text-xs text-white/90"
+                    placeholder="Search Google or ask about Aditya..."
+                  />
+                  {isSearching ? (
+                    <div className="w-3.5 h-3.5 border-2 border-sky-400 border-t-transparent rounded-full animate-spin ml-2 flex-shrink-0" />
+                  ) : (
+                    <button type="submit" className="text-white/40 hover:text-white/80 ml-2">
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                        <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
+              </form>
+            </div>
+
+            <p className="text-xs text-white/40 mb-5">
+              {isSearching ? "Searching with Gemini..." : `About ${resultCount} results (${searchTime} seconds)`}
+            </p>
+
+            {/* Results or Loading Skeleton */}
+            {isSearching ? (
+              <div className="space-y-6 max-w-xl animate-pulse">
+                {[1, 2, 3].map((i) => (
+                  <div key={i} className="space-y-2">
+                    <div className="h-2.5 bg-white/10 rounded w-40" />
+                    <div className="h-4 bg-sky-500/25 rounded w-72" />
+                    <div className="h-3 bg-white/5 rounded w-full" />
+                    <div className="h-3 bg-white/5 rounded w-5/6" />
+                  </div>
+                ))}
               </div>
-            </div>
-
-            <p className="text-xs text-white/40 mb-5">About 438,000 results (0.24 seconds)</p>
-
-            {/* Result 1: Main Portfolio Link */}
-            <div className="mb-6 max-w-xl">
-              <span className="text-[11px] text-white/50 block">saurabhkushwaha.dev</span>
-              <h3
-                onClick={() => navigateTo('start', 'Safari Start Page')}
-                className="text-sky-400 hover:underline cursor-pointer text-lg font-medium leading-tight mt-0.5"
-              >
-                Saurabh Kushwaha | Software Engineer & Creative Portfolio
-              </h3>
-              <p className="text-xs text-white/70 mt-1 leading-normal">
-                Welcome to my interactive macOS-themed portfolio. Explore my tech stack via terminal, view photography in Gallery, or get in touch. Built with React and Next.js.
-              </p>
-            </div>
-
-            {/* Result 2: GitHub profile */}
-            <div className="mb-6 max-w-xl">
-              <span className="text-[11px] text-white/50 block">github.com › saurabhkushwaha438</span>
-              <h3
-                onClick={() => window.open('https://github.com/saurabhkushwaha438', '_blank')}
-                className="text-sky-400 hover:underline cursor-pointer text-lg font-medium leading-tight mt-0.5"
-              >
-                saurabhkushwaha438 (Saurabh Kushwaha) · GitHub
-              </h3>
-              <p className="text-xs text-white/70 mt-1 leading-normal">
-                Saurabh Kushwaha - Full Stack Developer. Code repositories for Nike Store application, AI Resume Analyzer, and other Next.js/React side projects.
-              </p>
-            </div>
-
-            {/* Result 3: LinkedIn Profile */}
-            <div className="mb-6 max-w-xl">
-              <span className="text-[11px] text-white/50 block">linkedin.com › in › saurabhkushwaha</span>
-              <h3
-                onClick={() => window.open('https://linkedin.com/in/saurabhkushwaha', '_blank')}
-                className="text-sky-400 hover:underline cursor-pointer text-lg font-medium leading-tight mt-0.5"
-              >
-                Saurabh Kushwaha - Software Engineer - LinkedIn
-              </h3>
-              <p className="text-xs text-white/70 mt-1 leading-normal">
-                View Saurabh Kushwaha's professional profile on LinkedIn. Connecting technologies, languages, backend APIs, and React architectures to drive engineering value.
-              </p>
-            </div>
+            ) : (
+              searchResults.map((item, idx) => (
+                <div key={idx} className="mb-6 max-w-xl">
+                  <span className="text-[11px] text-white/50 block">{item.displayUrl}</span>
+                  <h3
+                    onClick={() => {
+                      if (item.url.startsWith('http')) {
+                        window.open(item.url, '_blank');
+                      } else if (item.url === 'start') {
+                        navigateTo('start', 'Safari Start Page');
+                      } else {
+                        window.open(item.url, '_blank');
+                      }
+                    }}
+                    className="text-sky-400 hover:underline cursor-pointer text-lg font-medium leading-tight mt-0.5"
+                  >
+                    {item.title}
+                  </h3>
+                  <p className="text-xs text-white/70 mt-1 leading-normal">
+                    {item.snippet}
+                  </p>
+                </div>
+              ))
+            )}
           </div>
         )}
 
@@ -320,7 +398,7 @@ export default function SafariWindow({ onClose }: SafariWindowProps) {
                 </svg>
                 <span className="text-sm font-semibold text-[#f0f6fc]">github.com</span>
               </div>
-              <button onClick={() => window.open('https://github.com/saurabhkushwaha438', '_blank')} className="px-3 py-1 bg-[#21262d] hover:bg-[#30363d] rounded text-xs font-semibold text-[#c9d1d9] border border-[#30363d]">
+              <button onClick={() => window.open('https://github.com/AdityaPrakash12441', '_blank')} className="px-3 py-1 bg-[#21262d] hover:bg-[#30363d] rounded text-xs font-semibold text-[#c9d1d9] border border-[#30363d]">
                 Open in Github
               </button>
             </div>
@@ -329,12 +407,12 @@ export default function SafariWindow({ onClose }: SafariWindowProps) {
               {/* Sidebar Info */}
               <div className="w-1/3 flex flex-col items-center">
                 <div className="w-36 h-36 rounded-full overflow-hidden border border-[#30363d] mb-4">
-                  <img src="/images/dp.jpeg" alt="Avatar" className="w-full h-full object-cover" />
+                  <img src="/images/dp.jpeg" alt="Avatar" className="w-full h-full object-cover" style={{ objectPosition: 'center 20%' }} />
                 </div>
-                <h2 className="text-xl font-bold text-[#f0f6fc]">Saurabh Kushwaha</h2>
-                <span className="text-sm text-[#8b949e]">saurabhkushwaha438</span>
+                <h2 className="text-xl font-bold text-[#f0f6fc]">Aditya Prakash</h2>
+                <span className="text-sm text-[#8b949e]">AdityaPrakash12441</span>
                 <p className="text-xs text-[#8b949e] mt-4 text-center">
-                  Full Stack Developer | Building interactive applications with JavaScript, React, & Node.js.
+                  Software Engineering Student | Building AI-native and security-focused systems with C++ and Python.
                 </p>
               </div>
 
@@ -344,27 +422,27 @@ export default function SafariWindow({ onClose }: SafariWindowProps) {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-3 border border-[#30363d] rounded-md bg-[#161b22]">
-                    <h4 className="text-xs font-bold text-[#58a6ff]">nike-ecommerce-app</h4>
-                    <p className="text-[10px] text-[#8b949e] mt-1">Interactive Nike Store Web application with complex shopping cart and checkout UI.</p>
-                    <span className="inline-block mt-3 text-[9px] text-yellow-500">● JavaScript</span>
+                    <h4 className="text-xs font-bold text-[#58a6ff]">dpi-engine</h4>
+                    <p className="text-[10px] text-[#8b949e] mt-1">C++17 Deep Packet Inspection engine with stateful flow tracking, TLS SNI inspection, and multithreaded pipeline.</p>
+                    <span className="inline-block mt-3 text-[9px] text-blue-400">● C++</span>
                   </div>
 
                   <div className="p-3 border border-[#30363d] rounded-md bg-[#161b22]">
-                    <h4 className="text-xs font-bold text-[#58a6ff]">ai-resume-analyzer</h4>
-                    <p className="text-[10px] text-[#8b949e] mt-1">Analyze and grade resume formats using natural language LLM API connections.</p>
-                    <span className="inline-block mt-3 text-[9px] text-blue-400">● TypeScript</span>
+                    <h4 className="text-xs font-bold text-[#58a6ff]">recall-dsa-rag</h4>
+                    <p className="text-[10px] text-[#8b949e] mt-1">Timestamp-aware RAG pipeline for 50+ hours of DSA lectures using MLX-Whisper, Qdrant, and BGE-M3.</p>
+                    <span className="inline-block mt-3 text-[9px] text-yellow-500">● Python</span>
                   </div>
 
                   <div className="p-3 border border-[#30363d] rounded-md bg-[#161b22]">
-                    <h4 className="text-xs font-bold text-[#58a6ff]">food-delivery-app</h4>
-                    <p className="text-[10px] text-[#8b949e] mt-1">Mock and modular layout for ordering and delivering meals dynamically.</p>
-                    <span className="inline-block mt-3 text-[9px] text-orange-500">● React</span>
-                  </div>
-
-                  <div className="p-3 border border-[#30363d] rounded-md bg-[#161b22]">
-                    <h4 className="text-xs font-bold text-[#58a6ff]">macos-portfolio-desktop</h4>
-                    <p className="text-[10px] text-[#8b949e] mt-1">A portfolio mimicking the beautiful macOS desktop and windowing workspace.</p>
+                    <h4 className="text-xs font-bold text-[#58a6ff]">mac-portfolio</h4>
+                    <p className="text-[10px] text-[#8b949e] mt-1">A portfolio mimicking the macOS desktop and windowing workspace. Built with Next.js and TypeScript.</p>
                     <span className="inline-block mt-3 text-[9px] text-[#3178c6]">● TypeScript</span>
+                  </div>
+
+                  <div className="p-3 border border-[#30363d] rounded-md bg-[#161b22]">
+                    <h4 className="text-xs font-bold text-[#58a6ff]">nlp-data-cleaner</h4>
+                    <p className="text-[10px] text-[#8b949e] mt-1">LLM-powered pipeline to correct phonetic hallucinations in Hinglish domain audio transcripts.</p>
+                    <span className="inline-block mt-3 text-[9px] text-yellow-500">● Python</span>
                   </div>
                 </div>
               </div>
@@ -389,35 +467,36 @@ export default function SafariWindow({ onClose }: SafariWindowProps) {
               <div className="px-6 pb-6 relative flex flex-col items-center">
                 {/* Photo */}
                 <div className="w-24 h-24 rounded-full border-4 border-white overflow-hidden -mt-12 shadow-sm mb-3">
-                  <img src="/images/dp.jpeg" alt="Avatar" className="w-full h-full object-cover" />
+                  <img src="/images/dp.jpeg" alt="Avatar" className="w-full h-full object-cover" style={{ objectPosition: 'center 20%' }} />
                 </div>
 
-                <h2 className="text-lg font-bold text-neutral-800">Saurabh Kushwaha</h2>
-                <p className="text-xs text-neutral-500 text-center font-medium mt-0.5">I would called my self Software Engineer</p>
-                <p className="text-[10px] text-neutral-400 mt-1"> Engineering software with curiosity and purpose.</p>
+                <h2 className="text-lg font-bold text-neutral-800">Aditya Prakash</h2>
+                <p className="text-xs text-neutral-500 text-center font-medium mt-0.5">Software Engineering Student · AI & Security Systems</p>
+                <p className="text-[10px] text-neutral-400 mt-1">Building AI-native systems at Manipal University Jaipur.</p>
 
                 <div className="w-full border-t border-neutral-100 my-4" />
 
                 <div className="w-full">
-                  <h3 className="text-xs font-bold text-neutral-700 uppercase tracking-wider mb-2">Experience</h3>
+                  <h3 className="text-xs font-bold text-neutral-700 uppercase tracking-wider mb-2">Education</h3>
 
                   <div className="flex gap-3 mb-3">
-                    <div className="w-8 h-8 rounded bg-sky-100 flex items-center justify-center flex-shrink-0 text-[10px] font-bold text-sky-700">APP</div>
+                    <div className="w-8 h-8 rounded bg-sky-100 flex items-center justify-center flex-shrink-0 text-[10px] font-bold text-sky-700">MUJ</div>
                     <div>
-                      <h4 className="text-xs font-bold text-neutral-800">Software Engineer</h4>
-                      <p className="text-[10px] text-neutral-500">Your Company · Full-time</p>
-                      <p className="text-[9px] text-neutral-400">Hopefully Soon</p>
+                      <h4 className="text-xs font-bold text-neutral-800">B.Tech — Computer Science Engineering</h4>
+                      <p className="text-[10px] text-neutral-500">Manipal University Jaipur · Full-time</p>
+                      <p className="text-[9px] text-neutral-400">July 2024 – July 2028</p>
                     </div>
                   </div>
 
                   <div className="flex gap-3">
-                    <div className="w-8 h-8 rounded bg-emerald-100 flex items-center justify-center flex-shrink-0 text-[10px] font-bold text-emerald-700">DEV</div>
+                    <div className="w-8 h-8 rounded bg-emerald-100 flex items-center justify-center flex-shrink-0 text-[10px] font-bold text-emerald-700">OCI</div>
                     <div>
-                      <h4 className="text-xs font-bold text-neutral-800">Freelance Developer</h4>
-                      <p className="text-[10px] text-neutral-500">Legal Partners</p>
-                      <p className="text-[9px] text-neutral-400">Oct 2024 - Nov 2024</p>
+                      <h4 className="text-xs font-bold text-neutral-800">Oracle Cloud AI Foundations Associate</h4>
+                      <p className="text-[10px] text-neutral-500">Oracle · Certification</p>
+                      <p className="text-[9px] text-neutral-400">2025</p>
                     </div>
                   </div>
+
                 </div>
               </div>
             </div>

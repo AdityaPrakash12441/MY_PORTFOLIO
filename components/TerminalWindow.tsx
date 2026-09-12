@@ -37,7 +37,7 @@ export default function TerminalWindow({ onClose }: TerminalWindowProps) {
       </div>
       <div className={styles.content}>
         <div className={styles.prompt}>
-          <span className={styles.user}>@Saurabh</span> % show tech stack
+          <span className={styles.user}>@Aditya</span> % show tech stack
         </div>
 
         <table className={styles.techTable}>
@@ -50,27 +50,23 @@ export default function TerminalWindow({ onClose }: TerminalWindowProps) {
           <tbody>
             <tr>
               <td className={styles.category}><span className={styles.check}>✓</span> Language</td>
-              <td>Java, Javascript, Typescript</td>
+              <td>C++17, Python, TypeScript, SQL</td>
             </tr>
             <tr>
-              <td className={styles.category}><span className={styles.check}>✓</span> Frontend</td>
-              <td>React.js, Next.js</td>
+              <td className={styles.category}><span className={styles.check}>✓</span> AI / ML</td>
+              <td>LangChain, Qdrant, RAG, BGE-M3, MLX-Whisper</td>
             </tr>
             <tr>
-              <td className={styles.category}><span className={styles.check}>✓</span> Styling</td>
-              <td>Tailwind CSS, Bootstrap, CSS</td>
+              <td className={styles.category}><span className={styles.check}>✓</span> Networking</td>
+              <td>TCP/IP, DNS, HTTP/HTTPS, Stateful Flow Tracking</td>
             </tr>
             <tr>
-              <td className={styles.category}><span className={styles.check}>✓</span> Backend</td>
-              <td>Node.js, Express</td>
-            </tr>
-            <tr>
-              <td className={styles.category}><span className={styles.check}>✓</span> Database</td>
-              <td>MongoDB, PostgreSQL</td>
+              <td className={styles.category}><span className={styles.check}>✓</span> CS Core</td>
+              <td>DSA, OOP, DBMS</td>
             </tr>
             <tr>
               <td className={styles.category}><span className={styles.check}>✓</span> Dev Tools</td>
-              <td>Git, GitHub, Docker</td>
+              <td>Git, GitHub, Linux, Wireshark, VS Code</td>
             </tr>
           </tbody>
         </table>

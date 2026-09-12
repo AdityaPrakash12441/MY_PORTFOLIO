@@ -12,6 +12,43 @@ const SUGGESTED_QUESTIONS = [
 ];
 
 export default function ChatWindow({ onClose }: { onClose?: () => void }) {
+
+// Parses **bold**, [text](url) links, and \n newlines into React elements
+function renderMarkdown(text: string): React.ReactNode[] {
+    const lines = text.split('\n');
+    return lines.flatMap((line, lineIdx) => {
+        const parts: React.ReactNode[] = [];
+        // regex: **bold** or [label](url)
+        const regex = /\*\*(.+?)\*\*|\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g;
+        let last = 0;
+        let match;
+        while ((match = regex.exec(line)) !== null) {
+            if (match.index > last) parts.push(line.slice(last, match.index));
+            if (match[1] !== undefined) {
+                // bold
+                parts.push(<strong key={`b-${lineIdx}-${match.index}`}>{match[1]}</strong>);
+            } else {
+                // link
+                parts.push(
+                    <a
+                        key={`l-${lineIdx}-${match.index}`}
+                        href={match[3]}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline text-[#58a6ff] hover:text-[#79b8ff] transition-colors"
+                    >
+                        {match[2]}
+                    </a>
+                );
+            }
+            last = match.index + match[0].length;
+        }
+        if (last < line.length) parts.push(line.slice(last));
+        if (lineIdx < lines.length - 1) parts.push(<br key={`br-${lineIdx}`} />);
+        return parts;
+    });
+}
+
     const [messages, setMessages] = useState<{ role: string, content: string }[]>([]);
     const [input, setInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -103,8 +140,8 @@ export default function ChatWindow({ onClose }: { onClose?: () => void }) {
                     </div>
                 ) : (
                     messages.map((m, idx) => (
-                        <div key={idx} className={`max-w-[85%] break-words whitespace-pre-wrap rounded-2xl px-4 py-2 text-[13px] leading-relaxed ${m.role === 'user' ? 'bg-[#0A84FF] text-white self-end rounded-br-sm' : 'bg-white/10 text-white/90 self-start rounded-bl-sm border border-white/5'}`}>
-                            {m.content}
+                        <div key={idx} className={`max-w-[85%] break-words rounded-2xl px-4 py-2 text-[13px] leading-relaxed ${m.role === 'user' ? 'bg-[#0A84FF] text-white self-end rounded-br-sm' : 'bg-white/10 text-white/90 self-start rounded-bl-sm border border-white/5'}`}>
+                            {renderMarkdown(m.content)}
                         </div>
                     ))
                 )}

@@ -13,12 +13,19 @@ interface Project {
     live?: string;
 }
 
-interface Experience {
-    company: string;
-    role: string;
+interface Education {
+    institution: string;
+    degree: string;
     period: string;
     location: string;
-    badge: "active" | "freelance";
+    badge?: string;
+}
+
+interface Certification {
+    name: string;
+    issuer: string;
+    period: string;
+    badge?: string;
 }
 
 // ─── Data — edit this section ────────────────────────────────────────────────
@@ -26,89 +33,53 @@ interface Experience {
 const PROJECTS: Project[] = [
     {
         id: 1,
-        icon: "/images/anydropi.png",
-        name: "AnyDrop",
-        description: "AnyDrop lets you instantly share text, files, or snippets across devices using a temporary PIN. Drop your content once, open it anywhere — no accounts, no logins, no friction.",
-        techs: ["Nextjs", "Tailwind", "Apis", "Cloudinary", "jwt"],
-        github: "https://github.com/saurabhkushwaha438/anydrop",
-        live: "https://anydrop-chi.vercel.app/",
+        icon: "🔍",
+        name: "Deep Packet Inspection (DPI) Engine",
+        description: "A C++17 DPI engine that parses Ethernet, IPv4, and TCP/UDP packets from PCAP captures. Features stateful flow tracking via five-tuples, TLS SNI & HTTP Host inspection, security policy enforcement for IP/domain-based blocking, and a multithreaded packet-processing pipeline with load balancers and thread-safe queues.",
+        techs: ["C++17", "Wireshark", "Multithreading", "TCP/IP", "PCAP"],
+        github: "https://github.com/AdityaPrakash12441/Packet_analyzer",
     },
     {
         id: 2,
-        icon: "/images/urlshortner.png",
-        name: "URL Shortener",
-        description: "URL Shortener is a tool that shortens URLs and provides analytics about the clicks on the shortened URLs.",
-        techs: ["Nodejs", "Redis", "Docker", "React", "Express"],
-        github: "https://github.com/saurabhkushwaha438/urlshortner",
-        live: "https://urlshortnerfrontend-steel.vercel.app/",
-    },
-    {
-        id: 3,
-        icon: "/images/prepmate.png",
-        name: "PrepMate",
-        description: "PrepMate Crack Your Placement Interviews Practice OS, DBMS, CN, and HR questions with an AI mentor designed to simulate the intensity of real-world technical evaluations",
-        techs: ["Nextjs", "TypeScript", "Geminie API"],
-        github: "https://github.com/saurabhkushwaha438/prepmate",
-        live: "https://prepmate-theta.vercel.app/",
-    },
-    {
-        id: 4,
-        icon: "/images/frogsafari.png",
-        name: "FrogsSafari",
-        description:
-            "Frog Safari is a 2D side-scroller game where you help a adorable frog hop across treacherous terrain, avoiding obstacles and collecting treats to reach its pond. Built with React and modern web technologies, this game brings charming visuals and smooth gameplay to your browser.",
-        techs: ["javascript", "canavas", "OOPs"],
-        github: "https://github.com/saurabhkushwaha438/Frog-Soar-Sky-Safari",
-        live: "https://saurabhkushwaha438.github.io/Frog-Soar-Sky-Safari/",
-    },
-    {
-        id: 5,
-        icon: "/images/dashboardi.png",
-        name: "CoinInsight",
-        description:
-            "CoinInsight is an  Crypto Market Dashboard that provides real-time coin tracking, advanced analytics, and coins comparision",
-        techs: ["Nextjs", "Shadcn ui", "Typescript", "JWT"],
-        github: "https://github.com/saurabhkushwaha438/frontend-dashboard",
-        live: "https://coininsight.vercel.app/",
-    },
-    {
-        id: 6,
-        icon: "🌐",
-        name: "Production Grade CMS Backend",
-        description:
-            "Production Grade CMS Backend is a content management system backend with role based content management system",
-        techs: ["Express", "JWT", "MongoDB", "Cloudinary", "multer"],
-        github: "https://github.com/saurabhkushwaha438/project_3_backend-content-management-system-",
-        live: "https://github.com/saurabhkushwaha438/project_3_backend-content-management-system-",
-    },
-    {
-        id: 7,
-        icon: "🌐",
-        name: "ChatRoomServer",
-        description:
-            "A simple chatroom server built with Java, allowing multiple clients to connect and communicate in real time. This project demonstrates the use of multithreading and socket programming.",
-        techs: ["Java", "multithreading", "socket programming"],
-        github: "https://github.com/saurabhkushwaha438/chatroomserver",
-        live: "https://github.com/saurabhkushwaha438/chatroomserver",
+        icon: "🧠",
+        name: "RECALL DSA — RAG Pipeline for Educational Video",
+        description: "A timestamp-aware Retrieval-Augmented Generation (RAG) system indexing 50+ hours of DSA video lectures. Uses Apple MLX framework for local speech-to-text on Metal GPU, an NLP cleaning pipeline to fix Hinglish hallucinations, and multilingual BGE-M3 embeddings in Qdrant DB with URL metadata linking to exact video timestamps.",
+        techs: ["Python", "MLX-Whisper", "Qdrant", "LangChain", "Grok API", "BGE-M3"],
+        github: "https://github.com/AdityaPrakash12441/RAGPLAYLIST",
     },
 ];
 
-const EXPERIENCE: Experience[] = [
+const EDUCATION: Education[] = [
     {
-        company: "OWASP SasanLabs",
-        role: "Open Source Contributor",
-        period: "Present",
-        location: "Remote · Open Source",
-        badge: "active",
-    },
-    {
-        company: "LegalEye Partners",
-        role: "Full Stack Developer",
-        period: "2024",
-        location: "Remote · Contract",
-        badge: "freelance",
+        institution: "Manipal University Jaipur",
+        degree: "Bachelor of Technology (B.Tech) — Computer Science Engineering",
+        period: "July 2024 – July 2028",
+        location: "Jaipur · On Campus",
+        badge: "Enrolled",
     },
 ];
+
+const CERTIFICATIONS: Certification[] = [
+    {
+        name: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
+        issuer: "Oracle · AI & Cloud Foundations",
+        period: "2025",
+        badge: "Certified",
+    },
+    {
+        name: "Introduction to Data Engineering and Big Data",
+        issuer: "GUVI & HCL · Data Engineering",
+        period: "2025",
+        badge: "Completed",
+    },
+    {
+        name: "Data Analytics Job Simulation",
+        issuer: "Deloitte Australia · Analytics & Forensics",
+        period: "2025",
+        badge: "Completed",
+    },
+];
+
 
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
@@ -148,7 +119,7 @@ function TitleBar({ onClose }: { onClose?: () => void }) {
                 <button className="w-3 h-3 rounded-full bg-[#28C840]" title="Maximize" />
             </div>
             <span className="absolute left-1/2 -translate-x-1/2 text-[12px] font-medium text-white/50 pointer-events-none tracking-wide flex items-center gap-1.5">
-                <span className="text-[10px]">📁</span> saurabh.dev
+                <span className="text-[10px]">📁</span> aditya.dev
             </span>
         </div>
     );
@@ -233,36 +204,68 @@ function ProjectList({ projects }: { projects: Project[] }) {
     );
 }
 
-// ─── Experience Card ──────────────────────────────────────────────────────────
+// ─── Education & Certification Cards ──────────────────────────────────────────
 
-function ExpCard({ exp }: { exp: Experience }) {
+function EducationCard({ edu }: { edu: Education }) {
     return (
         <div className="bg-white/[0.03] border border-white/[0.05] rounded-[12px] px-4 py-3.5 mb-2.5 hover:bg-white/[0.06] transition-colors flex items-center gap-4" style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,.18), 0 8px 30px rgba(0,0,0,.2)" }}>
-            <div className="w-10 h-10 rounded-full bg-white/[0.08] border border-white/10 flex items-center justify-center shrink-0">
-                💼
+            <div className="w-10 h-10 rounded-full bg-[#0A84FF]/10 border border-[#0A84FF]/25 flex items-center justify-center shrink-0">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#38bdf8" strokeWidth="1.8" className="w-5 h-5">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M6 12v5c3 3 9 3 12 0v-5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
             </div>
             <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between mb-0.5">
-                    <span className="text-[14px] text-white/90 truncate" style={{ fontWeight: 600, letterSpacing: "-0.02em" }}>{exp.company}</span>
-                    {exp.badge === "active" ? (
+                    <span className="text-[14px] text-white/90 truncate" style={{ fontWeight: 600, letterSpacing: "-0.02em" }}>{edu.institution}</span>
+                    {edu.badge && (
                         <span className="text-[10px] font-medium flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#0A84FF]/15 text-[#0A84FF] border border-[#0A84FF]/30 shadow-[0_0_10px_rgba(10,132,255,0.25)] ml-2 shrink-0">
-                            Active member
-                        </span>
-                    ) : (
-                        <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white/10 text-white/60 border border-white/10 ml-2 shrink-0">
-                            Freelance
+                            {edu.badge}
                         </span>
                     )}
                 </div>
-                <p className="text-[13px] text-white/60" style={{ fontWeight: 450 }}>{exp.role}</p>
+                <p className="text-[13px] text-white/60" style={{ fontWeight: 450 }}>{edu.degree}</p>
                 <div className="flex gap-3 mt-1 text-[11px] text-white/40">
-                    <span>{exp.period}</span>
-                    <span>{exp.location}</span>
+                    <span>{edu.period}</span>
+                    <span>•</span>
+                    <span>{edu.location}</span>
                 </div>
             </div>
         </div>
     );
 }
+
+function CertificationCard({ cert }: { cert: Certification }) {
+    return (
+        <div className="bg-white/[0.03] border border-white/[0.05] rounded-[12px] px-4 py-3.5 mb-2.5 hover:bg-white/[0.06] transition-colors flex items-center gap-4" style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,.18), 0 8px 30px rgba(0,0,0,.2)" }}>
+            <div className="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/25 flex items-center justify-center shrink-0">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fbbf24" strokeWidth="1.8" className="w-5 h-5">
+                    <circle cx="12" cy="8" r="6" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+            </div>
+            <div className="flex-1 min-w-0">
+                <div className="flex items-start justify-between mb-0.5">
+                    <span className="text-[14px] text-white/90 truncate" style={{ fontWeight: 600, letterSpacing: "-0.02em" }}>{cert.name}</span>
+                    {cert.badge && (
+                        <span className={`text-[10px] font-medium px-2.5 py-0.5 rounded-full ml-2 shrink-0 border ${
+                            cert.badge === "Certified"
+                                ? "bg-emerald-500/15 text-emerald-400 border-emerald-500/30"
+                                : "bg-white/10 text-white/70 border-white/10"
+                        }`}>
+                            {cert.badge}
+                        </span>
+                    )}
+                </div>
+                <p className="text-[13px] text-white/60" style={{ fontWeight: 450 }}>{cert.issuer}</p>
+                <div className="flex gap-3 mt-1 text-[11px] text-white/40">
+                    <span>{cert.period}</span>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 
 // ─── Root component ───────────────────────────────────────────────────────────
 
@@ -329,21 +332,21 @@ export default function Portfolio({ onClose, onOpenChat }: { onClose?: () => voi
                                 "inset 0 1px 0 rgba(255,255,255,.18), 0 8px 30px rgba(0,0,0,.2)"
                         }}
                     >
-                        <img src="/images/dp.jpeg" alt="Avatar" className="w-full h-full rounded-full object-cover shrink-0" />
+                        <img src="/images/dp.jpeg" alt="Avatar" className="w-full h-full rounded-full object-cover shrink-0" style={{ objectPosition: 'center 20%' }} />
                     </div>
                     <div>
                         <h1 className="text-[22px] text-white/90 leading-tight" style={{ fontWeight: 600, letterSpacing: "-0.02em" }}>
-                            Saurabh Kushwaha
+                            Aditya Prakash
                         </h1>
                         <p className="text-[13px] text-white/50 mt-1" style={{ fontWeight: 450 }}>
-                            Full Stack Developer · Open Source Contributor
+                            Software Engineering Student · AI & Security Systems
                         </p>
                     </div>
                 </section>
 
                 {/* Tags (macOS rounded pills) */}
                 <div className="flex flex-wrap gap-2 mb-5">
-                    {["Full Stack", "React", "TypeScript", "Node.js", "Next.js", "Security"].map(
+                    {["AI-Native Systems", "C++", "Python", "LLM / RAG", "Networking", "Vector Search"].map(
                         (tag, i) => (
                             <span
                                 key={tag}
@@ -360,14 +363,16 @@ export default function Portfolio({ onClose, onOpenChat }: { onClose?: () => voi
 
                 {/* Bio */}
                 <p className="text-[13px] text-white/60 leading-relaxed mb-5" style={{ fontWeight: 450 }}>
-                    Building cool stuff and contributing to open source security tooling.
-                    Member of OWASP SasanLabs. Currently doing fullstack development and learning AI engineering.
+                    Software engineering student building AI-native and security-focused systems.
+                    Experienced with C++, Python, TypeScript and Linux — with hands-on work in
+                    multithreaded systems, networking, LLM-based applications, and vector search.
+                    Interested in AI-native product engineering and reliable software built with human-reviewed AI assistance.
                 </p>
 
                 {/* Social Links */}
                 <div className="flex flex-wrap gap-2.5 mb-8">
                     <a
-                        href="https://github.com/saurabhkushwaha438"
+                        href="https://github.com/AdityaPrakash12441"
                         target="_blank"
                         rel="noreferrer"
                         className="text-[12px] font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.05] border border-white/[0.05] text-white/80 hover:bg-white/[0.1] hover:text-white transition-all shadow-sm"
@@ -376,7 +381,7 @@ export default function Portfolio({ onClose, onOpenChat }: { onClose?: () => voi
                         GitHub
                     </a>
                     <a
-                        href="https://www.linkedin.com/in/saurabhkushwaha438/"
+                        href="https://www.linkedin.com/in/aditya-prakash-124029330"
                         target="_blank"
                         rel="noreferrer"
                         className="text-[12px] font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.05] border border-white/[0.05] text-white/80 hover:bg-[#0A66C2]/15 hover:border-[#0A66C2]/30 hover:text-[#0A84FF] transition-all shadow-sm"
@@ -385,21 +390,29 @@ export default function Portfolio({ onClose, onOpenChat }: { onClose?: () => voi
                         LinkedIn
                     </a>
                     <a
-                        href="https://x.com/_100rbh_"
+                        href="https://leetcode.com/u/Aditya_prakash_1/"
                         target="_blank"
                         rel="noreferrer"
-                        className="text-[12px] font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.05] border border-white/[0.05] text-white/80 hover:bg-[#1DA1F2]/15 hover:border-[#1DA1F2]/30 hover:text-[#1DA1F2] transition-all shadow-sm"
+                        className="text-[12px] font-medium flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/[0.05] border border-white/[0.05] text-white/80 hover:bg-[#FFA116]/15 hover:border-[#FFA116]/30 hover:text-[#FFA116] transition-all shadow-sm"
                     >
-                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>
-                        Twitter
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" className="opacity-70"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z"/></svg>
+                        LeetCode
                     </a>
                 </div>
 
-                {/* ── Experience ── */}
-                <section id="experience" className="mb-8">
-                    <SectionHead>Experience</SectionHead>
-                    {EXPERIENCE.map((exp) => (
-                        <ExpCard key={exp.company} exp={exp} />
+                {/* ── Education ── */}
+                <section id="education" className="mb-7">
+                    <SectionHead>Education</SectionHead>
+                    {EDUCATION.map((edu) => (
+                        <EducationCard key={edu.institution} edu={edu} />
+                    ))}
+                </section>
+
+                {/* ── Certifications ── */}
+                <section id="certifications" className="mb-8">
+                    <SectionHead>Certifications</SectionHead>
+                    {CERTIFICATIONS.map((cert) => (
+                        <CertificationCard key={cert.name} cert={cert} />
                     ))}
                 </section>
 
@@ -408,6 +421,7 @@ export default function Portfolio({ onClose, onOpenChat }: { onClose?: () => voi
                     <SectionHead>Projects</SectionHead>
                     <ProjectList projects={PROJECTS} />
                 </section>
+
             </div>
 
             {/* Ask Me Floating Button */}

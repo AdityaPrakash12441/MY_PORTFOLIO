@@ -49,11 +49,12 @@ export default function Home() {
       `}</style>
 
       <Image
-        src="/images/wallpaper.png"
-        alt="macOS Wallpaper"
+        src="/images/fuji_wallpaper.jpg"
+        alt="Mount Fuji Wallpaper"
         fill
         className={`${styles.wallpaper} hidden md:block`}
         priority
+        unoptimized
         onClick={() => setIsPortfolioOpen(true)}
       />
       <div className="hidden md:block">
@@ -66,16 +67,10 @@ export default function Home() {
       <div className={`${styles.desktopArea} hidden md:flex`}>
         <div className={styles.iconGrid}>
           <DraggableIcon>
-            <DesktopIcon label="AnyDrop" onClick={() => { window.open("https://anydrop-chi.vercel.app/", "_blank") }} />
+            <DesktopIcon label="DPI Engine" onClick={() => { window.open("https://github.com/AdityaPrakash12441/Packet_analyzer", "_blank") }} />
           </DraggableIcon>
           <DraggableIcon>
-            <DesktopIcon label="CoinInsight Dashboard" onClick={() => { window.open("https://coininsight.vercel.app/", "_blank") }} />
-          </DraggableIcon>
-          <DraggableIcon>
-            <DesktopIcon label="Frog Safari" onClick={() => { window.open("https://saurabhkushwaha438.github.io/Frog-Soar-Sky-Safari/", "_blank") }} />
-          </DraggableIcon>
-          <DraggableIcon>
-            <DesktopIcon label="Premate" onClick={() => { window.open("https://prepmate-theta.vercel.app/", "_blank") }} />
+            <DesktopIcon label="RECALL DSA" onClick={() => { window.open("https://github.com/AdityaPrakash12441/RAGPLAYLIST", "_blank") }} />
           </DraggableIcon>
         </div>
         <div className={styles.iconGrid}>
@@ -94,9 +89,10 @@ export default function Home() {
             transform: (isTerminalOpen || isGalleryOpen || isContactOpen || isSafariOpen || isPortfolioOpen || isChatOpen) ? 'scale(0.95)' : 'scale(1)',
             transition: 'all 0.35s cubic-bezier(0.4, 0, 0.2, 1)'
           }}>
-            <BubbleText className={`${aubrey.className} ${styles.welcomeTextSmall}`}>Hey, I'm Saurabh! welcome to my</BubbleText>
+            <BubbleText className={`${aubrey.className} ${styles.welcomeTextSmall}`}>Hey, I'm Aditya! welcome to my</BubbleText>
             <BubbleText className={`${lacquer.className} ${styles.welcomeTextLarge}`}>portfolio</BubbleText>
           </div>
+
 
           {/* Floating Terminal Window */}
           {isTerminalOpen && (

@@ -13,8 +13,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Saurabh's Portfolio",
-  description: "Saurabh's personal portfolio website resembling a macOS interface.",
+  title: "Aditya's Portfolio",
+  description: "Aditya Prakash — Software engineering student building AI-native and security-focused systems. macOS-style portfolio.",
+  icons: {
+    icon: "/images/logo.svg",
+  },
 };
 
 export default function RootLayout({

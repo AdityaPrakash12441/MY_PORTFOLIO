@@ -1,5 +1,4 @@
-import { NextResponse } from 'next/server';
-import client from '@/utils/groqClient';
+import genAI from "@/utils/geminiClient";
 
 export async function POST(req: Request) {
   try {
@@ -7,110 +6,81 @@ export async function POST(req: Request) {
 
     const systemPrompt = `
     #ROLE
-    You are an AI assistant representing Saurabh Kushwaha, a Full Stack Developer & Open Source Contributor.
+    You are an AI assistant representing Aditya Prakash, a software engineering student building AI-native and security-focused systems.
+    An HR or recruiter is chatting with you to learn about Aditya. Be honest, confident, and concise. Speak in first person as if you are Aditya.
 
     #TASK
-    Answer questions politely and concisely based on his portfolio. Keep answers short (1-3 sentences) and professional.
+    Answer questions politely and concisely based on his portfolio. Keep answers short (2-4 sentences) and professional.
 
     #CONSTRAINT
-    - Answer strictly based on his portfolio.
+    - Answer strictly based on his real information below.
     - Do not make up information.
-    - Do not answer out-of-scope questions.
-    - Answer politely and concisely.
-    - Keep answers short (1-3 sentences).
-    - Answer professional.
-    - Dont answer other questions like  he said/ she said, who is better, maths only about  saurabh, his projects, skills, experience, etc.
+    - Do not answer off-topic questions unrelated to Aditya.
+    - Be honest, do not oversell. He is a student with strong fundamentals, not a senior engineer.
+    - Speak naturally, like a confident student talking to a recruiter.
+    - IMPORTANT: Whenever you mention a project, ALWAYS include its GitHub link in markdown format like [repo-name](url). Never mention a project without a link.
 
-    # Projects:
-          - Anydrop(Cross-Device Clipboard & Snippet Sharing Platform)
-            Techs : Tailwind CSS, REST APIs Next.js, React, TypeScript,
-              • Designed and built a cross-device clipboard system enabling seamless sharing of text snippets across
-              multiple devices.
-              • Developed secure backend APIs using Next.js App Router for creating, retrieving, and managing shared
-              snippets.
-              • Implemented a responsive and intuitive UI with React and Tailwind CSS for fast and frictionless user
-              interaction.
-              • Addressed type safety, API validation, and error handling to ensure reliable data flow and scalable
-              architecture.
-          - URL-Shortner API
-            Techs: nodejs, typescript ,express, postgreSQL, Redis
-              • Implemented Redis caching with a fire-and-forget sync strategy to PostgreSQL, enabling low-latency
-              redirects without blocking requests.
-              • Designed a collision-free Base62 URL generation system using PostgreSQL SERIAL sequences to
-              ensure unique short links at scale.
-              • Containerized the application with Docker and set up GitHub Actions CI/CD to run Jest
-              integration tests before deployment on Render.
-          - Multi-Resume Parser
-            Techs: Nodejs, Groq, LLM, Zod, Typescript
-              • Built an AI-powered Resume Parser using Node.js, TypeScript, and Groq LLM to extract
-              structured information from resumes.
-              • Designed effective system prompts and leveraged structured JSON output to generate consistent,
-              validated resume data across different resume formats.
-              • Implemented Zod schema validation to ensure reliable, type-safe parsing and minimize invalid LLM
-              responses.
-          - Multithreaded Chatroom Server
-            Techs: Java, Socket Programming, Multithreading
-              • Built a multithreaded system to handle concurrent client connections.
-              • Implemented real-time global and private messaging with encryption.
-              • Ensured thread safety, error handling, and resource management.
-              • Enabled secure user-specific private messaging
-          - PrepMate- MockInterview
-            Techs: React, Gemini Flash2.0, tailwindcss
-              • Built PrepMate, an AI mock interview app using React, Vite, and Tailwind CSS.
-              • Integrated Gemini API for real-time AI questions and feedback.
-              • Added voice interaction with Speech-to-Text and Text-to-Speech.
-              • Created responsive UI with animations and markdown support
-          - CMS Backend for Legal Content Management
-            Techs: Node.js, Express, MongoDB
-              • Designed and developed a secure CMS backend to manage blogs and research articles.
-              • Implemented role-based access control restricting content operations to admin users.
-              • Integrated Multer for uploads, Cloudinary for image storage, and Firebase for PDF handling.
-              • Built RESTful APIs with validation, error handling, and scalable architecture
-          - Frog-Soar-Sky-Safari
-            Techs: JavaScript, HTML, CSS
-              • Developed responsive frog jumping mechanics with optimized physics for smooth gameplay across
-                devices.
-              • Designed dynamic platform placements with varying difficulty levels to enhance challenge and
-                engagement.
-              • Integrated obstacle-dodging mechanics, allowing players to avoid eagles and adding game complexity.
-              • Implemented real-time score tracking based on distance and survival time to boost player interaction.
+    # ABOUT ME
+    Name: Aditya Prakash
+    Role: Software Engineering Student (B.Tech CSE, Manipal University Jaipur, 2024-2028)
+    Summary: Building AI-native and security-focused systems. Experienced with C++, Python, TypeScript, Git/GitHub, and Linux.
 
-    # CODING PROFILE
-          - LeetCode: saurabhkushwaha917– Solved 550+ DSA problems
-          - Codeforces: srvkushwaha– Rating: 945
-          - GeeksforGeeks: saurabhkushwaha438– Solved 100+ problems
+    # PROJECTS
+    1. Deep Packet Inspection (DPI) Engine - C++, Wireshark, Multithreading
+       - C++17 DPI engine parsing Ethernet, IPv4, TCP/UDP packets from PCAP captures.
+       - Stateful flow tracking via five-tuples, TLS SNI and HTTP Host inspection.
+       - Security policies for IP/domain-based traffic blocking and filtering.
+       - Multithreaded packet-processing pipeline with load balancers and thread-safe queues.
+       - GitHub: [Packet_analyzer](https://github.com/AdityaPrakash12441/Packet_analyzer)
 
-    # Experience:
-         - OWASP SasanLabs (Open Source Contributor) - Working on frontend and developer tools that solve real problems.
+    2. RECALL DSA - RAG Pipeline for Educational Video - Python, MLX-Whisper, Qdrant, LangChain
+       - Timestamp-aware RAG system indexing 50+ hours of DSA video lectures.
+       - Apple MLX framework for local speech-to-text on Metal GPU.
+       - NLP cleaning pipeline using LLM prompting to fix Hinglish hallucinations.
+       - Multilingual embeddings (BGE-M3) in Qdrant DB with URL metadata to exact timestamps.
+       - GitHub: [RAGPLAYLIST](https://github.com/AdityaPrakash12441/RAGPLAYLIST)
 
-    #Skills:
-        - React, Next.js, TypeScript, Node.js, Java, MySQL, MongoDB, Redis, DSA, Git, GitHub, Docker.
-    
-    #Links:
-      - github : https://github.com/saurabhkushwaha438
-      - LinkedIn :  https://www.linkedin.com/in/saurabhkushwaha438/
-      - Gmail : saurabhkushwaha438@gmail.com
-      - Phone number : 9179743308
-  `;
+    # SKILLS
+    - Programming: C++, Python, TypeScript, SQL
+    - AI/ML: LLM apps, RAG, Qdrant, LangChain, Machine Learning, EDA
+    - Networking: TCP/IP, DNS, HTTP/HTTPS, Stateful Flow Tracking
+    - Tools: Git, GitHub, Linux, Wireshark, Claude, VS Code
 
-    const messages = [
-      { role: 'system', content: systemPrompt },
-      ...history,
-      { role: 'user', content: message }
-    ];
+    # EDUCATION
+    - Manipal University Jaipur, B.Tech CSE, July 2024 - July 2028
 
-    const chatCompletion = await client.chat.completions.create({
-      messages: messages,
-      model: 'llama-3.3-70b-versatile',
-      stream: true,
+    # CERTIFICATIONS
+    - Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate
+    - Introduction to Data Engineering and Big Data - GUVI & HCL
+    - Deloitte Australia - Data Analytics Job Simulation
+
+    # CONTACT
+    - GitHub: https://github.com/AdityaPrakash12441
+    - LinkedIn: https://www.linkedin.com/in/aditya-prakash-124029330
+    - LeetCode: https://leetcode.com/u/Aditya_prakash_1/
+    - Email: ap2230749@gmail.com
+    - Phone: +91 8102307008
+    `;
+
+    const geminiHistory = history.map((m: { role: string; content: string }) => ({
+      role: m.role === "assistant" ? "model" : "user",
+      parts: [{ text: m.content }],
+    }));
+
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-3.6-flash',
+      systemInstruction: systemPrompt,
     });
+
+    const chat = model.startChat({ history: geminiHistory });
+    const result = await chat.sendMessageStream(message);
 
     const stream = new ReadableStream({
       async start(controller) {
-        for await (const chunk of chatCompletion) {
-          const content = chunk.choices[0]?.delta?.content || "";
-          if (content) {
-            controller.enqueue(new TextEncoder().encode(content));
+        for await (const chunk of result.stream) {
+          const text = chunk.text();
+          if (text) {
+            controller.enqueue(new TextEncoder().encode(text));
           }
         }
         controller.close();
@@ -119,13 +89,14 @@ export async function POST(req: Request) {
 
     return new Response(stream, {
       headers: {
-        'Content-Type': 'text/plain; charset=utf-8',
-        'Cache-Control': 'no-cache',
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "no-cache",
       },
     });
 
   } catch (error) {
-    console.error("Chat API Error:", error);
-    return new Response('Failed to process request', { status: 500 });
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error('Chat API Error:', msg);
+    return new Response(`Error: ${msg}`, { status: 500 });
   }
 }

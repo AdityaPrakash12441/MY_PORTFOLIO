@@ -41,7 +41,7 @@ export default function MenuBar({ onOpenPortfolio, onOpenContact }: MenuBarProps
         <span className={styles.appleLogo}>
           <Image src="/images/logo.svg" alt="Apple" width={19} height={19} />
         </span>
-        <span className={styles.brand}><h4>Saurabh's Portfolio</h4></span>
+        <span className={styles.brand}><h4>Aditya's Portfolio</h4></span>
         <span className={styles.menuItem} onClick={onOpenPortfolio}>Projects</span>
         <span className={styles.menuItem} onClick={onOpenContact}>Contact</span>
         <span className={styles.menuItem} onClick={() => window.open('/files/resume.pdf', '_blank')}>Resume</span>
