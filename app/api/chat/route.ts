@@ -1,11 +1,26 @@
 import genAI from "@/utils/geminiClient";
+import { checkRateLimit } from "@/utils/rateLimiter";
 
 export async function POST(req: Request) {
   try {
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() || req.headers.get("x-real-ip") || "127.0.0.1";
+    const limitCheck = checkRateLimit(ip, { maxPerMinute: 6, maxPerDay: 25 });
+    if (!limitCheck.allowed) {
+      return new Response(limitCheck.message || "Rate limit reached.", {
+        status: 429,
+        headers: { "Content-Type": "text/plain; charset=utf-8" },
+      });
+    }
+
     const { message, history } = await req.json();
 
     if (!process.env.GEMINI_API_KEY) {
       return new Response("GEMINI_API_KEY is not configured in environment variables", { status: 500 });
+    }
+
+    const userMessage = typeof message === "string" ? message.trim().slice(0, 300) : "";
+    if (!userMessage) {
+      return new Response("Message cannot be empty.", { status: 400 });
     }
 
     const systemPrompt = `
@@ -66,18 +81,23 @@ export async function POST(req: Request) {
     - Phone: +91 8102307008
     `;
 
-    const geminiHistory = history.map((m: { role: string; content: string }) => ({
+    const recentHistory = Array.isArray(history) ? history.slice(-6) : [];
+    const geminiHistory = recentHistory.map((m: { role: string; content: string }) => ({
       role: m.role === "assistant" ? "model" : "user",
-      parts: [{ text: m.content }],
+      parts: [{ text: (m.content || "").slice(0, 300) }],
     }));
 
     const model = genAI.getGenerativeModel({
       model: 'gemini-3.6-flash',
       systemInstruction: systemPrompt,
+      generationConfig: {
+        maxOutputTokens: 250,
+        temperature: 0.7,
+      },
     });
 
     const chat = model.startChat({ history: geminiHistory });
-    const result = await chat.sendMessageStream(message);
+    const result = await chat.sendMessageStream(userMessage);
 
     const stream = new ReadableStream({
       async start(controller) {

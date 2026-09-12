@@ -1,10 +1,18 @@
 import genAI from "@/utils/geminiClient";
+import { checkRateLimit } from "@/utils/rateLimiter";
 
 export async function POST(req: Request) {
   try {
-    const { query } = await req.json();
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() || req.headers.get("x-real-ip") || "127.0.0.1";
+    const limitCheck = checkRateLimit(ip, { maxPerMinute: 10, maxPerDay: 40 });
+    if (!limitCheck.allowed) {
+      return Response.json({ results: getDefaultResults() });
+    }
 
-    if (!query || typeof query !== "string" || !process.env.GEMINI_API_KEY) {
+    const { query } = await req.json();
+    const sanitizedQuery = typeof query === "string" ? query.trim().slice(0, 100) : "";
+
+    if (!sanitizedQuery || !process.env.GEMINI_API_KEY) {
       return Response.json({ results: getDefaultResults() });
     }
 
@@ -44,7 +52,13 @@ Instructions:
 ]
 `;
 
-    const model = genAI.getGenerativeModel({ model: "gemini-3.6-flash" });
+    const model = genAI.getGenerativeModel({
+      model: "gemini-3.6-flash",
+      generationConfig: {
+        maxOutputTokens: 300,
+        temperature: 0.5,
+      },
+    });
     const result = await model.generateContent(prompt);
     const text = result.response.text();
     
