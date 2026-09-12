@@ -1,14 +1,9 @@
-import Groq from "groq-sdk";
-import dotenv from "dotenv";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-dotenv.config();
+const apiKey = process.env.GEMINI_API_KEY;
 
-const apiKey = process.env.GROQ_API_KEY;
+if (!apiKey) throw new Error("GEMINI_API_KEY is not set in environment variables");
 
-if (!apiKey) throw new Error("groq api is not present");
+const genAI = new GoogleGenerativeAI(apiKey);
 
-const client = new Groq({
-    apiKey
-})
-
-export default client;
+export default genAI;
